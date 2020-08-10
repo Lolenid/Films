@@ -18,6 +18,11 @@ import java.util.List;
 
 public class FilmAdapter extends RecyclerView.Adapter<FilmAdapter.ViewHolder> {
     private List<Film> films;
+
+    public FilmAdapter(List<Film> films) {
+        this.films = films;
+    }
+
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {

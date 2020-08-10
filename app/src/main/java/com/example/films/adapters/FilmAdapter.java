@@ -22,7 +22,11 @@ import java.util.List;
 public class FilmAdapter extends RecyclerView.Adapter<FilmAdapter.ViewHolder> {
     private List<Film> films;
     private Context context;
+    private Listener listener;
 
+    public interface Listener{
+        void onClick(int position);
+    }
     public FilmAdapter(List<Film> films, Context context) {
         this.films = films;
         this.context = context;
@@ -36,7 +40,7 @@ public class FilmAdapter extends RecyclerView.Adapter<FilmAdapter.ViewHolder> {
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
         CardView cardView = holder.cardView;
         TextView textView = (TextView) cardView.findViewById(R.id.filmCardName);
         textView.setText(films.get(position).getLocalizedName());
@@ -44,6 +48,15 @@ public class FilmAdapter extends RecyclerView.Adapter<FilmAdapter.ViewHolder> {
         Glide.with(context)
                 .load(films.get(position).getImageUrl())
                 .into(imageView);
+
+        cardView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (listener != null) {
+                    listener.onClick(position);
+                }
+            }
+        });
     }
 
     @Override
@@ -58,5 +71,9 @@ public class FilmAdapter extends RecyclerView.Adapter<FilmAdapter.ViewHolder> {
             super(itemView);
             cardView = itemView;
         }
+    }
+
+    public void setListener(Listener listener){
+        this.listener = listener;
     }
 }

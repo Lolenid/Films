@@ -1,11 +1,14 @@
 package com.example.films.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -64,6 +67,30 @@ public class FilmsFragment extends Fragment {
             public void onFailure(Call<Films> call, Throwable t) {
                 Toast toast = Toast.makeText(getContext(), R.string.toast_text, Toast.LENGTH_SHORT);
                 toast.show();
+            }
+        });
+
+        filmAdapter.setListener(new FilmAdapter.Listener() {
+            public void onClick(int position) {
+                Log.v("MyTag", "clicked : " + position);
+                Fragment f1 = null;
+                Class c;
+                c = FilmDetailFragment.class;
+
+                try {
+                    f1 = (Fragment) c.newInstance();
+                } catch (IllegalAccessException e){
+                    e.printStackTrace();
+                } catch (java.lang.InstantiationException e){
+                    e.printStackTrace();            }
+                Log.v("MyTag", "is getActivity : " + getActivity());
+                Log.v("MyTag", "is getSupportFragmentManager : " + getActivity().getSupportFragmentManager());
+                FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
+                fragmentTransaction.replace(R.id.filmFragment, f1);
+
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.commit();
+
             }
         });
         return recyclerView;

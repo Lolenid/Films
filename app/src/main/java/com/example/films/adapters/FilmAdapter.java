@@ -1,14 +1,17 @@
 package com.example.films.adapters;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.films.R;
 import com.example.films.models.Film;
 
@@ -18,9 +21,11 @@ import java.util.List;
 
 public class FilmAdapter extends RecyclerView.Adapter<FilmAdapter.ViewHolder> {
     private List<Film> films;
+    private Context context;
 
-    public FilmAdapter(List<Film> films) {
+    public FilmAdapter(List<Film> films, Context context) {
         this.films = films;
+        this.context = context;
     }
 
     @NonNull
@@ -35,6 +40,10 @@ public class FilmAdapter extends RecyclerView.Adapter<FilmAdapter.ViewHolder> {
         CardView cardView = holder.cardView;
         TextView textView = (TextView) cardView.findViewById(R.id.filmCardName);
         textView.setText(films.get(position).getLocalizedName());
+        ImageView imageView = (ImageView) cardView.findViewById(R.id.filmCardImage);
+        Glide.with(context)
+                .load(films.get(position).getImageUrl())
+                .into(imageView);
     }
 
     @Override

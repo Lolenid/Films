@@ -48,7 +48,7 @@ public class FilmsFragment extends Fragment {
         gridLayoutManager = new GridLayoutManager(getActivity(), 2);
         recyclerView.setLayoutManager(gridLayoutManager);
 
-        filmAdapter = new FilmAdapter(films);
+        filmAdapter = new FilmAdapter(films, getContext());
         recyclerView.setAdapter(filmAdapter);
 
         RetrofitClient.getInstance().getApi().getFilms().enqueue(new Callback<Films>() {

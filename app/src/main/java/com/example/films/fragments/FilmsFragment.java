@@ -72,22 +72,10 @@ public class FilmsFragment extends Fragment {
 
         filmAdapter.setListener(new FilmAdapter.Listener() {
             public void onClick(int position) {
-                Log.v("MyTag", "clicked : " + position);
-                Fragment f1 = null;
-                Class c;
-                c = FilmDetailFragment.class;
+                FilmDetailFragment f1 = FilmDetailFragment.newInstance(films.get(position));
 
-                try {
-                    f1 = (Fragment) c.newInstance();
-                } catch (IllegalAccessException e){
-                    e.printStackTrace();
-                } catch (java.lang.InstantiationException e){
-                    e.printStackTrace();            }
-                Log.v("MyTag", "is getActivity : " + getActivity());
-                Log.v("MyTag", "is getSupportFragmentManager : " + getActivity().getSupportFragmentManager());
                 FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
-                fragmentTransaction.replace(R.id.filmFragment, f1);
-
+                fragmentTransaction.replace(R.id.conteiner, f1);
                 fragmentTransaction.addToBackStack(null);
                 fragmentTransaction.commit();
 

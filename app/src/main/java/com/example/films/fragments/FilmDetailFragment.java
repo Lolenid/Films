@@ -12,8 +12,11 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.GlideException;
 import com.example.films.R;
 import com.example.films.models.Film;
+
+import java.net.UnknownHostException;
 
 
 public class FilmDetailFragment extends Fragment {
@@ -53,6 +56,6 @@ public class FilmDetailFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
 
         ImageView imageView = getActivity().findViewById(R.id.imageView) ;
-        Glide.with(getContext()).load(mParam1.getImageUrl()).into(imageView);
+            Glide.with(getContext()).load(mParam1.getImageUrl()).error(Glide.with(imageView).load(R.drawable.nothing)).into(imageView);
     }
 }

@@ -47,6 +47,7 @@ public class FilmAdapter extends RecyclerView.Adapter<FilmAdapter.ViewHolder> {
         ImageView imageView = (ImageView) cardView.findViewById(R.id.filmCardImage);
         Glide.with(context)
                 .load(films.get(position).getImageUrl())
+                .error(Glide.with(imageView).load(R.drawable.nothing))
                 .into(imageView);
 
         cardView.setOnClickListener(new View.OnClickListener() {

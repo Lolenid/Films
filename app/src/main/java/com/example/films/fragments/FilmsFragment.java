@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.example.films.MainActivity;
 import com.example.films.R;
 import com.example.films.adapters.FilmAdapter;
 import com.example.films.models.Film;
@@ -46,8 +47,12 @@ public class FilmsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         films = new ArrayList<>();
-        recyclerView = (RecyclerView) (RecyclerView) inflater.inflate(
+        View view = inflater.inflate(
                 R.layout.films_fragment, container, false);
+        recyclerView = (RecyclerView) view.findViewById(R.id.filmsRecycler) ;
+        if (recyclerView.getParent() != null){
+            ((ViewGroup)recyclerView.getParent()).removeView(recyclerView);
+        }
         gridLayoutManager = new GridLayoutManager(getActivity(), 2);
         recyclerView.setLayoutManager(gridLayoutManager);
 
@@ -72,12 +77,13 @@ public class FilmsFragment extends Fragment {
 
         filmAdapter.setListener(new FilmAdapter.Listener() {
             public void onClick(int position) {
-                FilmDetailFragment f1 = FilmDetailFragment.newInstance(films.get(position));
-
-                FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
-                fragmentTransaction.replace(R.id.filmsContainer, f1);
-                fragmentTransaction.addToBackStack(null);
-                fragmentTransaction.commit();
+                ((MainActivity)getActivity()).replaceFragment(FilmsFragment.this, films.get(position));
+//                FilmDetailFragment f1 = FilmDetailFragment.newInstance(films.get(position));
+//
+//                FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
+//                fragmentTransaction.replace(R.id.filmsContainer, f1);
+//                fragmentTransaction.addToBackStack(null);
+//                fragmentTransaction.commit();
 
             }
         });

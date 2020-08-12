@@ -5,16 +5,23 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity"
-    android:id="@+id/conteiner">
-
+    >
+<include layout="@layout/tool_bar"
+    android:id="@+id/toolBar"></include>
+<FrameLayout
+    android:layout_width="match_parent"
+    android:layout_height="0dp"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@+id/toolBar"
+    android:id="@+id/filmsContainer">
     <fragment
-        android:id="@+id/filmFragmentAnother"
-        android:name="com.example.films.fragments.FilmsFragment"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:layout="@layout/films_fragment" />
+    android:name="com.example.films.fragments.FilmsFragment"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:layout="@layout/films_fragment" />
+</FrameLayout>
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

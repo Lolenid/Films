@@ -75,7 +75,7 @@ public class FilmsFragment extends Fragment {
                 FilmDetailFragment f1 = FilmDetailFragment.newInstance(films.get(position));
 
                 FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
-                fragmentTransaction.replace(R.id.conteiner, f1);
+                fragmentTransaction.replace(R.id.filmsContainer, f1);
                 fragmentTransaction.addToBackStack(null);
                 fragmentTransaction.commit();
 

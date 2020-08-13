@@ -77,7 +77,9 @@ public class FilmsFragment extends Fragment {
 
         filmAdapter.setListener(new FilmAdapter.Listener() {
             public void onClick(int position) {
-                ((MainActivity)getActivity()).replaceFragment(FilmsFragment.this, films.get(position));
+                ((MainActivity)getActivity())
+                        .replaceFragment(FilmsFragment.this, films.get(position));
+        //Попытка вынести FragmentTransaction в mainActivity, что бы из неё управлять заменой фрагментов
 //                FilmDetailFragment f1 = FilmDetailFragment.newInstance(films.get(position));
 //
 //                FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();

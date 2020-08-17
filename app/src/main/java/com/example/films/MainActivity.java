@@ -34,7 +34,14 @@ public class MainActivity extends AppCompatActivity {
         if(fragment!= null){
             if (fragment instanceof FilmDetailFragment){
                 toolbar.setTitle(R.string.app_name);
+                FilmsFragment f1 = new FilmsFragment();
+                Log.d("MyTag", "if");
+                FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+                fragmentTransaction.replace(R.id.filmsContainer, f1);
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.commit();
             }else if(fragment instanceof FilmsFragment){
+                Log.d("MyTag", "else if");
                 toolbar.setTitle(film.getLocalizedName());
                 getSupportActionBar().setDisplayHomeAsUpEnabled(true);
                 getSupportActionBar().setHomeButtonEnabled(true);
@@ -42,22 +49,31 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onClick(View view) {
                         onBackPressed();
-                        Log.d("MyTag", "Click home toolbar");
+                        Log.d("MyTag", "setOnClickListener");
                     }
                 });
+                FilmDetailFragment f1 = FilmDetailFragment.newInstance(film);
+
+                FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+                fragmentTransaction.replace(R.id.filmsContainer, f1);
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.commit();
             }
             else {
                 toolbar.setTitle("another");
+                Log.d("MyTag", "another");
             }
         }else {
             toolbar.setTitle("null");
+            Log.d("MyTag", "null");
         }
         this.film = film;
-        FilmDetailFragment f1 = FilmDetailFragment.newInstance(film);
 
-        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.replace(R.id.filmsContainer, f1);
-        fragmentTransaction.addToBackStack(null);
-        fragmentTransaction.commit();
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Log.d("MyTag", "Click home toolbar");
     }
 }

@@ -25,11 +25,12 @@ public class FilmAdapter extends RecyclerView.Adapter<FilmAdapter.ViewHolder> {
     private Listener listener;
 
     public interface Listener{
-        void onClick(int position);
+        void onFilmSelected(Film film, View view);
     }
-    public FilmAdapter(List<Film> films, Context context) {
+    public FilmAdapter(List<Film> films, Context context, Listener listener) {
         this.films = films;
         this.context = context;
+        this.listener = listener;
     }
 
     @NonNull
@@ -41,23 +42,13 @@ public class FilmAdapter extends RecyclerView.Adapter<FilmAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
-        CardView cardView = holder.cardView;
-        TextView textView = (TextView) cardView.findViewById(R.id.filmCardName);
-        textView.setText(films.get(position).getLocalizedName());
-        ImageView imageView = (ImageView) cardView.findViewById(R.id.filmCardImage);
+        Film film = films.get(position);
+        holder.filmText.setText(film.getLocalizedName());
+
         Glide.with(context)
                 .load(films.get(position).getImageUrl())
-                .error(Glide.with(imageView).load(R.drawable.nothing))
-                .into(imageView);
-
-        cardView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (listener != null) {
-                    listener.onClick(position);
-                }
-            }
-        });
+                .error(Glide.with(holder.filmImage).load(R.drawable.nothing))
+                .into(holder.filmImage);
     }
 
     @Override
@@ -66,15 +57,21 @@ public class FilmAdapter extends RecyclerView.Adapter<FilmAdapter.ViewHolder> {
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        CardView cardView;
+        private ImageView filmImage;
+        private TextView filmText;
 
-        public ViewHolder(@NonNull CardView itemView) {
+        ViewHolder(@NonNull final View itemView) {
             super(itemView);
-            cardView = itemView;
+            filmImage = itemView.findViewById(R.id.filmCardImage);
+            filmText = itemView.findViewById(R.id.filmCardName);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    listener.onFilmSelected(films.get(getAdapterPosition()), itemView);
+                }
+            });
         }
     }
 
-    public void setListener(Listener listener){
-        this.listener = listener;
-    }
 }

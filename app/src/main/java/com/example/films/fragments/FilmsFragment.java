@@ -3,8 +3,11 @@ package com.example.films.fragments;
 import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.navigation.NavDirections;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -14,7 +17,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.example.films.MainActivity;
 import com.example.films.R;
 import com.example.films.adapters.FilmAdapter;
 import com.example.films.models.Film;
@@ -30,9 +32,11 @@ import retrofit2.Response;
 
 public class FilmsFragment extends Fragment {
     private RecyclerView recyclerView;
-    private FilmAdapter filmAdapter;
-    private GridLayoutManager gridLayoutManager;
+
     private List<Film> films;
+
+//    private FilmAdapter filmAdapter;
+//    private GridLayoutManager gridLayoutManager;
 
     public FilmsFragment() {
         // Required empty public constructor
@@ -46,19 +50,60 @@ public class FilmsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.films_fragment, container, false);
+        recyclerView = view.findViewById(R.id.filmsRecycler);
+
+        setHasOptionsMenu(true);
+        return view;
+//        films = new ArrayList<>();
+//        recyclerView = (RecyclerView) (RecyclerView) inflater.inflate(
+//                R.layout.films_fragment, container, false);
+//        gridLayoutManager = new GridLayoutManager(getActivity(), 2);
+//        recyclerView.setLayoutManager(gridLayoutManager);
+
+      //  filmAdapter = new FilmAdapter(films, getContext());
+//        recyclerView.setAdapter(filmAdapter);
+//
+//        RetrofitClient.getInstance().getApi().getFilms().enqueue(new Callback<Films>() {
+//            @Override
+//            public void onResponse(Call<Films> call, Response<Films> response) {
+//                if (response.body() != null) {
+//                    films.addAll(response.body().getFilms());
+//                    recyclerView.getAdapter().notifyDataSetChanged();
+//                }
+//            }
+//
+//            @Override
+//            public void onFailure(Call<Films> call, Throwable t) {
+//                Toast toast = Toast.makeText(getContext(), R.string.toast_text, Toast.LENGTH_SHORT);
+//                toast.show();
+//            }
+//        });
+//
+//        filmAdapter.setListener(new FilmAdapter.Listener() {
+//            public void onClick(int position) {
+//                FilmDetailFragment f1 = FilmDetailFragment.newInstance(films.get(position));
+//
+//                FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
+//                fragmentTransaction.replace(R.id.filmsContainer, f1);
+//                fragmentTransaction.addToBackStack(null);
+//                fragmentTransaction.commit();
+//
+//            }
+//        });
+//        return recyclerView;
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        loadData();
+        FilmAdapter navigatorAdapter = new FilmAdapter(films, getContext(), new FilmListener());
+        recyclerView.setAdapter(navigatorAdapter);
+    }
+
+    private void loadData() {
         films = new ArrayList<>();
-        View view = inflater.inflate(
-                R.layout.films_fragment, container, false);
-        recyclerView = (RecyclerView) view.findViewById(R.id.filmsRecycler) ;
-        if (recyclerView.getParent() != null){
-            ((ViewGroup)recyclerView.getParent()).removeView(recyclerView);
-        }
-        gridLayoutManager = new GridLayoutManager(getActivity(), 2);
-        recyclerView.setLayoutManager(gridLayoutManager);
-
-        filmAdapter = new FilmAdapter(films, getContext());
-        recyclerView.setAdapter(filmAdapter);
-
         RetrofitClient.getInstance().getApi().getFilms().enqueue(new Callback<Films>() {
             @Override
             public void onResponse(Call<Films> call, Response<Films> response) {
@@ -74,21 +119,14 @@ public class FilmsFragment extends Fragment {
                 toast.show();
             }
         });
+    }
+    private class FilmListener implements FilmAdapter.Listener {
 
-        filmAdapter.setListener(new FilmAdapter.Listener() {
-            public void onClick(int position) {
-                ((MainActivity)getActivity())
-                        .replaceFragment(FilmsFragment.this, films.get(position));
-        //Попытка вынести FragmentTransaction в mainActivity, что бы из неё управлять заменой фрагментов
-//                FilmDetailFragment f1 = FilmDetailFragment.newInstance(films.get(position));
-//
-//                FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
-//                fragmentTransaction.replace(R.id.filmsContainer, f1);
-//                fragmentTransaction.addToBackStack(null);
-//                fragmentTransaction.commit();
 
-            }
-        });
-        return recyclerView;
+        @Override
+        public void onFilmSelected(Film film, View view) {
+            NavDirections action = FilmsFragmentDirections.actionFilmsFragmentToFilmDetailFragment(film);
+            Navigation.findNavController(view).navigate(action);
+        }
     }
 }

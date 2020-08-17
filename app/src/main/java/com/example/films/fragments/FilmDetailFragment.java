@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.GlideException;
@@ -17,45 +18,39 @@ import com.example.films.R;
 import com.example.films.models.Film;
 
 import java.net.UnknownHostException;
+import java.util.Objects;
 
 
 public class FilmDetailFragment extends Fragment {
-
-    private static final String ARG_PARAM1 = "film";
-    private Film mParam1;
 
     public FilmDetailFragment() {
         // Required empty public constructor
     }
 
-    public static FilmDetailFragment newInstance(Film film) {
-        FilmDetailFragment fragment = new FilmDetailFragment();
-        Bundle args = new Bundle();
-        args.putParcelable(ARG_PARAM1, film);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getParcelable(ARG_PARAM1);
-        }
-
-    }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_detail_films, container, false);
-    }
+        // Inflate the layout for this fragment
+        View view = inflater.inflate(R.layout.fragment_detail_films, container, false);
 
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
+        ImageView directionsImageView = view.findViewById(R.id.detailImage);
+        TextView directionsTextView = view.findViewById(R.id.detailName);
 
-        ImageView imageView = getActivity().findViewById(R.id.imageView) ;
-            Glide.with(getContext()).load(mParam1.getImageUrl()).error(Glide.with(imageView).load(R.drawable.nothing)).into(imageView);
+//        Film film = FilmDetailFragmentArgs.fromBundle(Objects.requireNonNull(getArguments())).getDetailFilmArgument();
+        Film film = FilmDetailFragmentArgs.fromBundle(requireArguments()).getDetailFilmArgument();
+
+        Glide.with(getContext())
+                .load(film.getImageUrl())
+                .error(Glide.with(directionsImageView).load(R.drawable.nothing))
+                .into(directionsImageView);
+        directionsTextView.setText(film.getLocalizedName());
+/*
+Glide.with(context)
+                .load(films.get(position).getImageUrl())
+                .error(Glide.with(holder.filmImage).load(R.drawable.nothing))
+                .into(holder.filmImage);
+ */
+
+        return view;
     }
 }

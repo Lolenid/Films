@@ -125,7 +125,7 @@ public class FilmsFragment extends Fragment {
 
         @Override
         public void onFilmSelected(Film film, View view) {
-            NavDirections action = FilmsFragmentDirections.actionFilmsFragmentToFilmDetailFragment(film);
+            NavDirections action = FilmsFragmentDirections.actionFilmsFragmentToFilmDetailFragment(film, film.getLocalizedName());
             Navigation.findNavController(view).navigate(action);
         }
     }

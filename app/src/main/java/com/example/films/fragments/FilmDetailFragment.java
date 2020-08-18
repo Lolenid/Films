@@ -19,7 +19,6 @@ import com.example.films.models.Film;
 public class FilmDetailFragment extends Fragment {
 
     public FilmDetailFragment() {
-        // Required empty public constructor
     }
 
     @Override

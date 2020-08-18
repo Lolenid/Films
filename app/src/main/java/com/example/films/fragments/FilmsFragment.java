@@ -35,11 +35,7 @@ public class FilmsFragment extends Fragment {
 
     private List<Film> films;
 
-//    private FilmAdapter filmAdapter;
-//    private GridLayoutManager gridLayoutManager;
-
     public FilmsFragment() {
-        // Required empty public constructor
     }
 
     @Override

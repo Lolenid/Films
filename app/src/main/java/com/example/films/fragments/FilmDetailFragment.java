@@ -39,10 +39,18 @@ public class FilmDetailFragment extends Fragment {
                 .load(film.getImageUrl())
                 .error(Glide.with(filmPoster).load(R.drawable.nothing))
                 .into(filmPoster);
-        filmName.setText(film.getLocalizedName());
-        filmYear.setText(film.getYear().toString());
-        filmRating.setText(film.getRating().toString());
-        filmDescription.setText(film.getDescription());
+        if(film.getLocalizedName() != null){
+            filmName.setText(film.getLocalizedName());
+        }
+        if(film.getYear() != null){
+            filmYear.setText(film.getYear().toString());
+        }
+        if(film.getRating() != null){
+            filmRating.setText(film.getRating().toString());
+        }
+        if(film.getDescription() != null){
+            filmDescription.setText(film.getDescription());
+        }
         return view;
     }
 }

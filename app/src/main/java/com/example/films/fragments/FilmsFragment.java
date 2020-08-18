@@ -55,43 +55,6 @@ public class FilmsFragment extends Fragment {
 
         setHasOptionsMenu(true);
         return view;
-//        films = new ArrayList<>();
-//        recyclerView = (RecyclerView) (RecyclerView) inflater.inflate(
-//                R.layout.films_fragment, container, false);
-//        gridLayoutManager = new GridLayoutManager(getActivity(), 2);
-//        recyclerView.setLayoutManager(gridLayoutManager);
-
-      //  filmAdapter = new FilmAdapter(films, getContext());
-//        recyclerView.setAdapter(filmAdapter);
-//
-//        RetrofitClient.getInstance().getApi().getFilms().enqueue(new Callback<Films>() {
-//            @Override
-//            public void onResponse(Call<Films> call, Response<Films> response) {
-//                if (response.body() != null) {
-//                    films.addAll(response.body().getFilms());
-//                    recyclerView.getAdapter().notifyDataSetChanged();
-//                }
-//            }
-//
-//            @Override
-//            public void onFailure(Call<Films> call, Throwable t) {
-//                Toast toast = Toast.makeText(getContext(), R.string.toast_text, Toast.LENGTH_SHORT);
-//                toast.show();
-//            }
-//        });
-//
-//        filmAdapter.setListener(new FilmAdapter.Listener() {
-//            public void onClick(int position) {
-//                FilmDetailFragment f1 = FilmDetailFragment.newInstance(films.get(position));
-//
-//                FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
-//                fragmentTransaction.replace(R.id.filmsContainer, f1);
-//                fragmentTransaction.addToBackStack(null);
-//                fragmentTransaction.commit();
-//
-//            }
-//        });
-//        return recyclerView;
     }
 
     @Override

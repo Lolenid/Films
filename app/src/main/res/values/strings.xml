@@ -1,4 +1,8 @@
 <resources>
     <string name="app_name">Фильмы</string>
     <string name="toast_text">Ошибка получения данных</string>
+    <string name="yearLabel">Год</string>
+    <string name="reitingLabel">Рейтинг</string>
+    <string name="unknownData">Не известно</string>
+    <string name="descriptionImage">Изображение</string>
 </resources>

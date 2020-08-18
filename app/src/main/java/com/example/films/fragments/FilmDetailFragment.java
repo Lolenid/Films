@@ -2,7 +2,6 @@ package com.example.films.fragments;
 
 import android.os.Bundle;
 
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import android.util.Log;
@@ -16,9 +15,6 @@ import com.bumptech.glide.Glide;
 import com.example.films.R;
 import com.example.films.models.Film;
 
-import java.net.UnknownHostException;
-import java.util.Objects;
-
 
 public class FilmDetailFragment extends Fragment {
 
@@ -31,16 +27,22 @@ public class FilmDetailFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_detail_films, container, false);
 
-        ImageView directionsImageView = view.findViewById(R.id.detailImage);
-        TextView directionsTextView = view.findViewById(R.id.detailName);
+        ImageView filmPoster = view.findViewById(R.id.detailImage);
+        TextView filmName = view.findViewById(R.id.detailName);
+        TextView filmYear = view.findViewById(R.id.detailYear);
+        TextView filmRating = view.findViewById(R.id.detailRating);
+        TextView filmDescription = view.findViewById(R.id.detailDescription);
 
         Film film = FilmDetailFragmentArgs.fromBundle(requireArguments()).getDetailFilmArgument();
 
         Glide.with(getContext())
                 .load(film.getImageUrl())
-                .error(Glide.with(directionsImageView).load(R.drawable.nothing))
-                .into(directionsImageView);
-        directionsTextView.setText(film.getLocalizedName());
+                .error(Glide.with(filmPoster).load(R.drawable.nothing))
+                .into(filmPoster);
+        filmName.setText(film.getLocalizedName());
+        filmYear.setText(film.getYear().toString());
+        filmRating.setText(film.getRating().toString());
+        filmDescription.setText(film.getDescription());
         return view;
     }
 }
